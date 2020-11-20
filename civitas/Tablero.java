@@ -57,16 +57,18 @@ public class Tablero {
     
     protected void añadeCasilla(Casilla nuevaCasilla){
         
+        //Esto es redundante?????????!!!!!
         if(this.casillas.size() == this.numCasillaCarcel){
-            Casilla casillaCarcel = new Casilla("Carcel");
+            Casilla casillaCarcel = new Casilla(this.numCasillaCarcel,"Carcel");
             this.casillas.add(casillaCarcel);
         }
         
         this.casillas.add(nuevaCasilla);
         
-        //Esto es redundante?????????!!!!!
+        //Con esta seria suficiente
         if(this.casillas.size() == this.numCasillaCarcel){
-            Casilla casillaCarcel = new Casilla("Carcel");
+            Casilla casillaCarcel = new Casilla(this.numCasillaCarcel
+                    ,"Carcel");
             this.casillas.add(casillaCarcel);
         }
     }

@@ -109,8 +109,7 @@ class VistaTextual {
       lista.add(GestionesInmobiliarias.CONSTRUIR_HOTEL.toString());
       lista.add(GestionesInmobiliarias.TERMINAR.toString());
       this.iGestion = this.menu("Elige la operacion que quieres realizar", lista);
-      
-      
+        
   }
   
   public int getGestion(){ return this.iGestion; }
@@ -126,20 +125,18 @@ class VistaTextual {
   void mostrarEventos() {
       Diario diario = Diario.getInstance();
       while(diario.eventosPendientes())
-        System.out.println(diario.leerEvento());
+        System.out.println("\033[35m DIARIO:" + diario.leerEvento());
   }
   
   public void setCivitasJuego(CivitasJuego civitas){ 
         juegoModel=civitas;
-        this.actualizarVista();
-
     }
   
   void actualizarVista(){
-      String info =" INFORMACIÓN SOBRE EL JUGADOR ACTUAL: \n\n ";
-      info += this.juegoModel.getJugadorActual().toString();
-      info +=" INFORMACIÓN SOBRE LA CASILLA ACTUAL: \n\n ";
-      info += this.juegoModel.getCasillaActual().toString();
+      String info ="\n\033[31m --JUGADOR ACTUAL: \n";
+      info += "     " + this.juegoModel.getJugadorActual().toString();
+      info +="\n\033[31m ---CASILLA ACTUAL: \n";
+      info += "     " + this.juegoModel.getCasillaActual().toString() + "\n"; 
       
       System.out.println(info);
   } 

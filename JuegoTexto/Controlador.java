@@ -36,15 +36,17 @@ public class Controlador {
             if(!juego.finalDelJuego()){
                 switch (siguiente){
                     case COMPRAR:
-                        if(vista.comprar() == Respuestas.SI){
-                            juego.comprar();                
-                            juego.siguientePasoCompletado(siguiente);
-                        }
+                        if(vista.comprar() == Respuestas.SI)
+                            juego.comprar();       
+                        
+                        juego.siguientePasoCompletado(siguiente);     
                         break;
+                        
                     case GESTIONAR:
                         vista.gestionar();
+                        
                         OperacionInmobiliaria op = new OperacionInmobiliaria(GestionesInmobiliarias.values()[vista.getGestion()], vista.getPropiedad());
-                        this.gestionar(op);
+                        this.casosGestionar(op,siguiente);
                         break;
                         
                     case SALIR_CARCEL:
@@ -56,7 +58,7 @@ public class Controlador {
                                 juego.salirCarcelTirando();
                                 break;
                         }
-                        juego.siguientePasoCompletado(juego.siguientePaso()); 
+                        juego.siguientePasoCompletado(siguiente); 
                         break;
                 }
             }
@@ -65,8 +67,8 @@ public class Controlador {
         System.out.println("SE TERMINA");
     }
     
-    public void gestionar(OperacionInmobiliaria op){
-        int ip = op.getNumPropiedad();
+    public void casosGestionar(OperacionInmobiliaria op, OperacionesJuego siguiente){
+        int ip = op.getNumPropiedad();  
         switch(op.getGestion()){
             case VENDER:
                 juego.vender(ip);
@@ -84,7 +86,7 @@ public class Controlador {
                 juego.construirHotel(ip);
                 break;
             case TERMINAR:
-                juego.siguientePasoCompletado(juego.siguientePaso());
+                juego.siguientePasoCompletado(siguiente);
                 break;
         }
     }

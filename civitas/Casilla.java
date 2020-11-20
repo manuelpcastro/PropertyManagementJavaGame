@@ -100,7 +100,7 @@ public class Casilla {
     
     private void recibeJugador_calle(int iactual, ArrayList<Jugador> todos){
         if(this.jugadorCorrecto(iactual, todos)){
-            this.informe(iactual, todos);
+           
             Jugador jugador = todos.get(iactual);
             
             if(!this.titulo.tienePropietario()){
@@ -114,7 +114,7 @@ public class Casilla {
     
     private void recibeJugador_impuesto(int iactual, ArrayList<Jugador> todos){
         if(this.jugadorCorrecto(iactual,todos)){
-            this.informe(iactual,todos);
+            
             Jugador jugadorActual = todos.get(iactual);
             jugadorActual.pagaImpuesto(this.importe);
         }
@@ -123,7 +123,7 @@ public class Casilla {
         
     private void recibeJugador_juez(int iactual, ArrayList<Jugador> todos){
         if(this.jugadorCorrecto(iactual,todos)){
-            this.informe(iactual, todos);
+           
             Jugador jugadorActual = todos.get(iactual);
             jugadorActual.encarcelar(CARCEL);
         }
@@ -133,14 +133,16 @@ public class Casilla {
     private void recibeJugador_sorpresa(int iactual, ArrayList<Jugador> todos){
         if(this.jugadorCorrecto(iactual, todos)) {
             Sorpresa sorpresa = this.mazo.siguiente();
-            this.informe(iactual, todos);
             sorpresa.aplicarAJugador(iactual, todos);
         }
     }
 
     @Override
     public String toString() {
-        return "Casilla{" + "nombre=" + nombre + ", importe=" + importe + ", tipo=" + tipo + ", titulo=" + titulo + ", mazo=" + mazo + '}';
+        String s_importe = importe == 0 ? "" : ", importe= " + importe;
+        String s_titulo = titulo == null ? "" : ", titulo=" + titulo;
+        String s_mazo = mazo == null ? "":", mazo= " + mazo;
+        return "Casilla{" + "nombre=" + nombre + ", tipo= " + tipo + s_importe + s_titulo + s_mazo + '}';
     }
 
     

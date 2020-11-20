@@ -124,7 +124,7 @@ public class CivitasJuego {
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORJUGADOR, -100, "Pagas a cada jugador"));
         
         //SALIRCARCEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.SALIRCARCEL, this.tablero));
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.SALIRCARCEL, this.mazo));
         
         //IRCARCEL
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, this.tablero));
@@ -137,8 +137,8 @@ public class CivitasJuego {
        this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Barcelona",30,30,30,30,30)));
        this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Jaen",30,30,30,30,30)));
        this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Granada",30,30,30,30,30)));
-              this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Cordoba",30,30,30,30,30)));
-                     this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Sevilla",30,30,30,30,30)));
+       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Cordoba",30,30,30,30,30)));
+       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Sevilla",30,30,30,30,30)));
     }
     
     private void pasarTurno(){
@@ -164,18 +164,23 @@ public class CivitasJuego {
         Jugador jugadorActual = this.getJugadorActual();
         OperacionesJuego operacion = this.gestor.operacionesPermitidas(jugadorActual,this.estado);
         
-        if(operacion == OperacionesJuego.PASAR_TURNO)
-            this.pasarTurno();
+        switch(operacion){
+            case PASAR_TURNO:
+              this.pasarTurno();
+              this.siguientePasoCompletado(operacion);
+            break;
+            case AVANZAR:
+              this.avanzaJugador();
+              this.siguientePasoCompletado(operacion);
+            break;
+        }
 
-        if(operacion == OperacionesJuego.AVANZAR)
-            this.avanzaJugador();
-
-        this.siguientePasoCompletado(operacion);
         return operacion;
     }
     
     public void siguientePasoCompletado(OperacionesJuego operacion){
         Jugador jugadorActual = this.getJugadorActual();
+      
         this.estado = this.gestor.siguienteEstado(jugadorActual, this.estado, operacion);
     }
     
@@ -195,10 +200,6 @@ public class CivitasJuego {
     
     //
     public String infoPropiedades(){
-        String titulos = "Propiedades: \n";
-        for(TituloPropiedad p : this.getJugadorActual().propiedades){
-           titulos+=p.toString()+"\n";
-        }
-        return titulos;      
+       return this.getJugadorActual().infoPropiedades();
     }
 }

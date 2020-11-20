@@ -202,6 +202,9 @@ public class TituloPropiedad {
 
     @Override
     public String toString() {
-        return "TituloPropiedad{" + "alquilerBase=" + alquilerBase + ", factorRevalorizacion=" + factorRevalorizacion + ", hipotecaBase=" + hipotecaBase + ", hipotecado=" + hipotecado + ", nombre=" + nombre + ", numCasas=" + numCasas + ", numHoteles=" + numHoteles + ", precioCompra=" + precioCompra + ", precioEdificar=" + precioEdificar + ", propietario=" + propietario + '}';
+        String nombreProp = propietario == null ? "nadie" : this.propietario.getNombre();
+        String s_hipotecada = hipotecado == true ? "HIPOTECADA" : "";
+       
+        return "\n  TituloPropiedad{" + s_hipotecada + " nombre=" + nombre + ", propietario= " + nombreProp + ", numCasas=" + numCasas + ", numHoteles=" + numHoteles + ", precioCompra=" + precioCompra + ", precioEdificar=" + precioEdificar + "}\n";
     }
 }

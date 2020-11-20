@@ -10,20 +10,25 @@ public class Jugador implements Comparable<Jugador>{
     
     protected static int CASAS_MAX = 4;
     protected static int CASAS_POR_HOTEL = 4;
-    protected boolean encarcelado;
+    
     protected static int HOTELES_MAX = 4;
-    String nombre;
-    int numCasillaActual;
+    
     protected static float PASO_POR_SALIDA = 1000;
     protected static float PRECIO_LIBERTAD = 200;
-    boolean puedeComprar;
-    float saldo;
+    
     protected static float SALDO_INICIAL = 7500;
+    
+    private String nombre;
+    private int numCasillaActual;
+    protected boolean encarcelado;
+    
+    private boolean puedeComprar;
+    private float saldo;
+    
     
     Sorpresa salvoconducto;
     ArrayList<TituloPropiedad> propiedades;
-    Dado dado = Dado.getInstance();
-    
+  
     Jugador(String nombre){
         this.nombre = nombre;
         this.numCasillaActual = 0;
@@ -144,7 +149,7 @@ public class Jugador implements Comparable<Jugador>{
         return this.encarcelado;
     }
     
-    boolean existeLaPropiedad(int ip){
+    private boolean existeLaPropiedad(int ip){
         return this.propiedades.size() > ip && ip >= 0;
     }
     
@@ -245,7 +250,7 @@ public class Jugador implements Comparable<Jugador>{
     }
     
     boolean pasaPorSalida(){
-        this.modificarSaldo(Jugador.PASO_POR_SALIDA);
+        this.modificarSaldo(this.getPremioPasoSalida());
         this.informarDiario("ha pasado por la salida y ha recibido el pago");
         return true;
     }
@@ -273,72 +278,79 @@ public class Jugador implements Comparable<Jugador>{
     private boolean puedoEdificarHotel(TituloPropiedad titulo){
         boolean puedoEdificarHotel = false;
         float precio = titulo.getPrecioEdificar();
-        puedoEdificarHotel = this.puedoGastar(precio) && titulo.getNumHoteles() < this.getHotelesMax() && titulo.getNumCasas() <= this.getCasasPorHotel();
+        puedoEdificarHotel = this.puedoGastar(precio) && titulo.getNumHoteles() < this.getHotelesMax() && titulo.getNumCasas() >= this.getCasasPorHotel();
         return puedoEdificarHotel;
     }
     
-     private boolean puedoGastar(float precio){
-         if(this.encarcelado) return false;    
-         return this.saldo >= precio;
-     }
+    private boolean puedoGastar(float precio){
+        if(this.encarcelado) return false;    
+        return this.saldo >= precio;
+    }
      
-     boolean recibe(float cantidad){
-         if(this.encarcelado) return false;
-         return this.modificarSaldo(cantidad);
-     }
+    boolean recibe(float cantidad){
+        if(this.encarcelado) return false;
+        return this.modificarSaldo(cantidad);
+    }
      
-     boolean salirCarcelPagando(){
+    boolean salirCarcelPagando(){
         if (this.puedeSalirCarcelPagando()){
-            this.paga(Jugador.PRECIO_LIBERTAD);
-            this.encarcelado = false;
-            this.informarDiario("ha abandonado la carcel pagando");
-            return true;
+           this.paga(Jugador.PRECIO_LIBERTAD);
+           this.encarcelado = false;
+           this.informarDiario("ha abandonado la carcel pagando");
+           return true;
         }
         return false;
-     }
+    }
      
-     boolean salirCarcelTirando(){
-         encarcelado = this.dado.salgoDeLaCarcel();
-         if(!encarcelado)
+    boolean salirCarcelTirando(){
+        encarcelado = Dado.getInstance().salgoDeLaCarcel();
+        if(!encarcelado)
             this.informarDiario("ha salido de la cárcel gracias al dado");
-         else
-             this.informarDiario("no ha salido de la cárcel usando al dado"); 
-         return !encarcelado;
-     }
+        else
+            this.informarDiario("no ha salido de la cárcel usando al dado"); 
+        return !encarcelado;
+    }
      
-     boolean tieneAlgoQueGestionar(){
-         return this.propiedades.size() > 0;
-     }
+    boolean tieneAlgoQueGestionar(){
+        return this.propiedades.size() > 0;
+    }
      
-     boolean tieneSalvoconducto(){
-         return this.salvoconducto != null;
-     }
+    boolean tieneSalvoconducto(){
+        return this.salvoconducto != null;
+    }
+    
+    String infoPropiedades(){
+        String titulos = "\n    Propiedades: \n";
+        for(TituloPropiedad p : this.propiedades){
+           titulos+="   "
+                   + "" + p.toString()+"\n";
+        }
+        return titulos;     
+    }
 
     @Override
     public String toString() {
-        return "Jugador{" + "encarcelado=" + encarcelado + ", nombre=" + nombre + ", numCasillaActual=" + numCasillaActual + ", puedeComprar=" + puedeComprar + ", saldo=" + saldo + ", salvoconducto=" + salvoconducto + ", propiedades=" + propiedades + '}';
+        return "Jugador{" + "nombre=" + nombre + ", encarcelado=" + encarcelado + ", numCasillaActual=" + numCasillaActual + ", saldo=" + saldo + ", propiedades=" + propiedades + '}';
+    }
+
+     
+    boolean vender(int ip){
+        if(this.encarcelado) return false;
+         
+        if(this.existeLaPropiedad(ip)){
+            //Asegurar que esto es lo que se pide
+            if(this.propiedades.get(ip).vender(this)){
+                this.informarDiario("ha vendido la propiedad " + this.propiedades.get(ip).getNombre());
+                this.propiedades.remove(ip);
+                return true;
+            }
+        }
+        return false;
     }
      
-     
-     
-     boolean vender(int ip){
-         if(this.encarcelado) return false;
-         
-         if(this.existeLaPropiedad(ip)){
-             //Asegurar que esto es lo que se pide
-             if(this.propiedades.get(ip).vender(this)){
-                 this.informarDiario("ha vendido la propiedad " + this.propiedades.get(ip).getNombre());
-                 this.propiedades.remove(ip);
-                 return true;
-             }
-         }
-         
-         return false;
-     }
-     
-     private void informarDiario(String mensaje){
-         Diario.getInstance().ocurreEvento("Jugador " + this.nombre + ": " + mensaje);
-     }
+    private void informarDiario(String mensaje){
+        Diario.getInstance().ocurreEvento("Jugador " + this.nombre + ": " + mensaje);
+    }
     
     
 }
