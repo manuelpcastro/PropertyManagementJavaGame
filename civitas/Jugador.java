@@ -27,7 +27,7 @@ public class Jugador implements Comparable<Jugador>{
     
     
     Sorpresa salvoconducto;
-    ArrayList<TituloPropiedad> propiedades;
+    private ArrayList<TituloPropiedad> propiedades;
   
     Jugador(String nombre){
         this.nombre = nombre;
@@ -267,7 +267,7 @@ public class Jugador implements Comparable<Jugador>{
     }
     
     private boolean puedeSalirCarcelPagando(){
-        return this.saldo > Jugador.PRECIO_LIBERTAD;
+        return this.saldo > this.getPrecioLibertad();
     }
     
     private boolean puedoEdificarCasa(TituloPropiedad titulo){
@@ -294,7 +294,7 @@ public class Jugador implements Comparable<Jugador>{
      
     boolean salirCarcelPagando(){
         if (this.puedeSalirCarcelPagando()){
-           this.paga(Jugador.PRECIO_LIBERTAD);
+           this.paga(this.getPrecioLibertad());
            this.encarcelado = false;
            this.informarDiario("ha abandonado la carcel pagando");
            return true;
@@ -319,21 +319,11 @@ public class Jugador implements Comparable<Jugador>{
         return this.salvoconducto != null;
     }
     
-    String infoPropiedades(){
-        String titulos = "\n    Propiedades: \n";
-        for(TituloPropiedad p : this.propiedades){
-           titulos+="   "
-                   + "" + p.toString()+"\n";
-        }
-        return titulos;     
-    }
-
     @Override
     public String toString() {
         return "Jugador{" + "nombre=" + nombre + ", encarcelado=" + encarcelado + ", numCasillaActual=" + numCasillaActual + ", saldo=" + saldo + ", propiedades=" + propiedades + '}';
     }
 
-     
     boolean vender(int ip){
         if(this.encarcelado) return false;
          
@@ -350,6 +340,23 @@ public class Jugador implements Comparable<Jugador>{
      
     private void informarDiario(String mensaje){
         Diario.getInstance().ocurreEvento("Jugador " + this.nombre + ": " + mensaje);
+    }
+
+    String infoPropiedades(){
+        String titulos = "\n    Propiedades: \n";
+        for(TituloPropiedad p : this.propiedades){
+           titulos+="   "
+                   + "" + p.toString()+"\n";
+        }
+        return titulos;     
+    }
+
+    ArrayList<String> getPropiedadesNombre() {
+        ArrayList<String> titulos = new ArrayList<>();
+        for(TituloPropiedad p : this.propiedades){
+           titulos.add(p.getNombre());
+        }
+        return titulos;
     }
     
     

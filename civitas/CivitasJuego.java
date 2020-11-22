@@ -9,7 +9,9 @@ import java.util.Collections;
  */
 public class CivitasJuego {
     
-    
+    //MODO DEBUG DADO ACTIVADO EN LINEA 34
+    private static int NUM_CASILLAS_SORPRESA=3;
+    private static Boolean debug=true;
     private int indiceJugadorActual;
     ArrayList<Jugador> jugadores;
     
@@ -29,11 +31,15 @@ public class CivitasJuego {
         this.estado = this.gestor.estadoInicial();
         
         this.indiceJugadorActual = Dado.getInstance().quienEmpieza(this.jugadores.size());
-       
-        //Dejar claro como se elige el num_casilla de la carcel
-        this.inicializarTablero(new Tablero(4));
         
-        this.inicializarMazoSopresas(new MazoSorpresas());
+        Dado.getInstance().setDebug(CivitasJuego.debug);
+        
+        this.mazo = new MazoSorpresas();
+        this.tablero = new Tablero(4);
+        //Dejar claro como se elige el num_casilla de la carcel
+        this.inicializarTablero(this.mazo);
+        
+        this.inicializarMazoSopresas(this.tablero);
 
     }
     
@@ -101,19 +107,25 @@ public class CivitasJuego {
         return jugadorActual.hipotecar(ip);
     }
     
-    public String infoJugadorTexto(){return "";}
+   
+    public String infoJugadorTexto(){
+      String info ="\n\033[31m --JUGADOR ACTUAL: \n";
+      info += "     " + this.getJugadorActual().toString();
+      info +="\n\033[31m ---CASILLA ACTUAL: \n";
+      info += "     " + this.getCasillaActual().toString() + "\n"; 
+      return info;
+    }
     
-    private void inicializarMazoSopresas(MazoSorpresas mazo){
-        this.mazo = mazo;
+    private void inicializarMazoSopresas(Tablero tablero){
         
         //PAGARCOBRAR
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, 30, "Cobras 30"));   
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, -20, "Pagas 20"));   
         
         //IRCASILLA
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero.getCarcel(), "Te diriges a la cárcel"));  
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, 0, "Ve a la casilla inicial"));  
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, tablero.getCarcel(), "Te diriges a la cárcel"));  
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, 0, "Ve a la casilla inicial"));  
         
         //PORCASAHOTEL
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORCASAHOTEL, 10, "Recibes dinero por casa y hotel"));
@@ -127,18 +139,41 @@ public class CivitasJuego {
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.SALIRCARCEL, this.mazo));
         
         //IRCARCEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, this.tablero));
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, tablero));
     }
     
-    private void inicializarTablero(Tablero tablero){
-       this.tablero = tablero;
-       this.tablero.añadeCasilla(new Casilla("SALIDA"));
-       this.tablero.añadeCasilla(new Casilla((float)30.0,"IMPUESTO"));
-       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Barcelona",30,30,30,30,30)));
-       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Jaen",30,30,30,30,30)));
-       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Granada",30,30,30,30,30)));
-       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Cordoba",30,30,30,30,30)));
-       this.tablero.añadeCasilla(new Casilla(new TituloPropiedad("Calle Sevilla",30,30,30,30,30)));
+    //Los valores son totalmente arbitrarios, si queremos forzar el final del juego, bastaria con poner 7500 a todos los titulos en el pago de alquiler
+    private void inicializarTablero(MazoSorpresas mazo){
+        
+       ArrayList<Casilla> casillas = new ArrayList<>();
+       
+       //12 casillas calle
+       String[] nombres = {"Barcelona", "Jaen", "Granada", "Cordoba", "Sevilla", "Madrid", "Malaga", "Cadiz", "Huelva", "Almeria", "Valencia", "Bilbao"};
+       for(int i=0; i<nombres.length; i++){
+        casillas.add(new Casilla(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
+       }
+       
+       //4 casillas sorpresa
+       for(int j=0; j<CivitasJuego.NUM_CASILLAS_SORPRESA; j++){
+        casillas.add(new Casilla(mazo, "Casilla Sorpresa"));
+       }
+       
+       //1 casilla impuesto
+       casillas.add(new Casilla((float)30.0,"IMPUESTO"));
+       
+       //1 casilla parking
+       casillas.add(new Casilla("PARKING"));
+       
+       //1 casilla juez
+       casillas.add(new Casilla("JUEZ",tablero.getCarcel()));
+       
+       Collections.shuffle(casillas);
+       
+       casillas.add(0, new Casilla("SALIDA"));
+       
+       for(Casilla c : casillas){
+           this.tablero.añadeCasilla(c);
+       }
     }
     
     private void pasarTurno(){
@@ -147,6 +182,7 @@ public class CivitasJuego {
     
     private ArrayList<Jugador> ranking(){
         Collections.sort(this.jugadores);
+        Collections.reverse(this.jugadores);
         return this.jugadores;
     }
     
@@ -157,7 +193,7 @@ public class CivitasJuego {
     
     public boolean salirCarcelTirando(){
         Jugador jugadorActual = this.getJugadorActual();
-        return jugadorActual.salirCarcelPagando();
+        return jugadorActual.salirCarcelTirando();
     }
     
     public OperacionesJuego siguientePaso(){
@@ -189,17 +225,22 @@ public class CivitasJuego {
         return jugadorActual.vender(ip);
     }
     
-    //
+    //Devuelve los nombres de los titulos
     public ArrayList<String> getPropiedadesJugadorActual(){
-        ArrayList<String> titulos = new ArrayList<>();
-        for(TituloPropiedad p : this.getJugadorActual().propiedades){
-           titulos.add(p.getNombre());
-        }
-        return titulos;
+        return this.getJugadorActual().getPropiedadesNombre();
     }
     
-    //
+    //Solo le devolvemos un String
     public String infoPropiedades(){
        return this.getJugadorActual().infoPropiedades();
+    }
+    
+    //No debemos devolver el array de jugadores tal cual a la vista
+    public ArrayList<String> infoRanking(){
+        ArrayList<String> info = new ArrayList<>();
+        for(Jugador j : this.ranking()){
+            info.add("Jugador: " + j.getNombre() + " - Saldo: " + j.getSaldo());
+        }
+        return info;
     }
 }

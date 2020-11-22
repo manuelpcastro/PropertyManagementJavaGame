@@ -138,7 +138,7 @@ public class Sorpresa {
         String mensajeValor="";
         if(this.valor != -1)
             mensajeValor = " El valor de la carta es: " + this.valor;
-        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa de tipo " + this.tipo + " a " + jugadorActual.nombre +"." + mensajeValor);
+        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa de tipo " + this.tipo + " a " + jugadorActual.getNombre() +"." + mensajeValor);
     }
     
     public boolean jugadorCorrecto(int actual, ArrayList<Jugador> todos){

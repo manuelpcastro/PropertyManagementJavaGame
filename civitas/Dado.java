@@ -15,12 +15,9 @@ public class Dado {
     private int ultimoResultado;
     private Boolean debug;
     
-    private Diario diario;
-    
     private Dado(){
         this.debug = false;
         this.random = new Random();
-        this.diario = Diario.getInstance();
         tirar();  
     }
     
@@ -30,31 +27,31 @@ public class Dado {
     }
     
     
-    protected int tirar(){
+    int tirar(){
         ultimoResultado = debug ? 1 : random.nextInt(6) + 1;
         return ultimoResultado;
     }
     
     
-    protected Boolean salgoDeLaCarcel(){
+    Boolean salgoDeLaCarcel(){
         Boolean salgo = tirar() == SalidaCarcel;
         return salgo;
     }
     
     
-    protected int quienEmpieza(int numJugadores){
+    int quienEmpieza(int numJugadores){
         return random.nextInt(numJugadores);
     }
     
     
-    protected void setDebug(Boolean d){
+    void setDebug(Boolean d){
         this.debug = d;
         String estado = d ? "activado" : "desactivado";
-        diario.ocurreEvento("Dado: modo debug " + estado);
+        Diario.getInstance().ocurreEvento("Dado: modo debug " + estado);
     }
     
     
-    protected int getUltimoResultado(){
+    int getUltimoResultado(){
         return this.ultimoResultado;
     }
 }

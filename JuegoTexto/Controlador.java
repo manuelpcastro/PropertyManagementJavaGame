@@ -15,12 +15,12 @@ public class Controlador {
     CivitasJuego juego;
     VistaTextual vista;
     
-    public Controlador(CivitasJuego instancia, VistaTextual vistaTextual){
+    Controlador(CivitasJuego instancia, VistaTextual vistaTextual){
         juego = instancia;
         vista = vistaTextual;
     }
     
-    public void juega(){
+    void juega(){
         vista.setCivitasJuego(juego);
         
         while(!juego.finalDelJuego()){
@@ -37,14 +37,12 @@ public class Controlador {
                 switch (siguiente){
                     case COMPRAR:
                         if(vista.comprar() == Respuestas.SI)
-                            juego.comprar();       
-                        
+                            juego.comprar();           
                         juego.siguientePasoCompletado(siguiente);     
                         break;
                         
                     case GESTIONAR:
-                        vista.gestionar();
-                        
+                        vista.gestionar();                       
                         OperacionInmobiliaria op = new OperacionInmobiliaria(GestionesInmobiliarias.values()[vista.getGestion()], vista.getPropiedad());
                         this.casosGestionar(op,siguiente);
                         break;
@@ -63,11 +61,10 @@ public class Controlador {
                 }
             }
         }
-        
-        System.out.println("SE TERMINA");
+        vista.ranking();
     }
-    
-    public void casosGestionar(OperacionInmobiliaria op, OperacionesJuego siguiente){
+    //Por legibilidad de codigo en el metodo juega, saco esta parte fuera
+    private void casosGestionar(OperacionInmobiliaria op, OperacionesJuego siguiente){
         int ip = op.getNumPropiedad();  
         switch(op.getGestion()){
             case VENDER:

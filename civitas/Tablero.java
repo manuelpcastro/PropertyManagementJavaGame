@@ -13,7 +13,7 @@ public class Tablero {
     private int porSalida;
     private Boolean tieneJuez;
     
-    protected Tablero(int casillaCarcel){
+    public Tablero(int casillaCarcel){
                     
         this.numCasillaCarcel = casillaCarcel > 0 ? casillaCarcel : -casillaCarcel;
         
@@ -43,19 +43,20 @@ public class Tablero {
     }
     
     
-    protected int getCarcel(){
+    int getCarcel(){
         return this.numCasillaCarcel;
     }
     
     
-    protected int getPorSalida(){
+    int getPorSalida(){
         int numeroVeces = this.porSalida;
-        this.porSalida--;
+        if(this.porSalida > 0)
+            this.porSalida--;
         return numeroVeces;
     }
     
     
-    protected void añadeCasilla(Casilla nuevaCasilla){
+    void añadeCasilla(Casilla nuevaCasilla){
         
         //Esto es redundante?????????!!!!!
         if(this.casillas.size() == this.numCasillaCarcel){
@@ -74,8 +75,7 @@ public class Tablero {
     }
     
     
-    protected void añadeJuez(){
-        
+    void añadeJuez(){
         if(!this.tieneJuez){
             Casilla casillaJuez = new Casilla("Juez");
             this.casillas.add(casillaJuez);
@@ -84,27 +84,32 @@ public class Tablero {
     }
     
     
-    protected Casilla getCasilla(int numCasilla){
+    Casilla getCasilla(int numCasilla){
         if(numCasilla >= 0 && numCasilla < this.casillas.size()){
             return this.casillas.get(numCasilla);
-        }
-           
+        }        
         return null;
     }
     
+    ArrayList<Casilla> getCasillas(){
+        return this.casillas;
+    }
     
-    protected int nuevaPosicion(int actual, int tirada){
+    int nuevaPosicion(int actual, int tirada){
         //Que comprobamos? el % nos asegura que esta dentro
         if(!correcto(actual)) return -1;
         int nuevaPosicion = (actual + tirada)%this.casillas.size();
         
-        if(actual+tirada != nuevaPosicion) this.porSalida++;
+        if((actual+tirada) != nuevaPosicion){
+            Diario.getInstance().ocurreEvento("Tablero: ha pasado por la salida");
+            this.porSalida++;
+        }
         
         return nuevaPosicion;
     }
     
     
-    protected int calcularTirada(int origen, int destino){
+    int calcularTirada(int origen, int destino){
         int tirada = destino - origen;
         if(tirada < 0) tirada += this.casillas.size();
         

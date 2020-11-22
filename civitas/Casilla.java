@@ -27,14 +27,14 @@ public class Casilla {
     }
     
     
-    protected Casilla(String nombre){
+    Casilla(String nombre){
         this.init();
         this.tipo = TipoCasilla.DESCANSO;
         this.nombre = nombre;
     }
     
     
-    protected Casilla(TituloPropiedad titulo){
+    Casilla(TituloPropiedad titulo){
         this.init();
         this.tipo = TipoCasilla.CALLE;
         this.nombre = titulo.getNombre();
@@ -42,7 +42,7 @@ public class Casilla {
     }
     
     
-    protected Casilla(float cantidad, String nombre){
+    Casilla(float cantidad, String nombre){
         this.init();
         this.tipo = TipoCasilla.IMPUESTO;
         this.importe = cantidad;
@@ -50,7 +50,7 @@ public class Casilla {
     }
     
     
-    protected Casilla(int numCasillaCarcel, String nombre){
+    Casilla(String nombre,int numCasillaCarcel){
         this.init();
         this.tipo = TipoCasilla.JUEZ;
         Casilla.CARCEL = numCasillaCarcel;
@@ -58,7 +58,7 @@ public class Casilla {
     }
     
     
-    protected Casilla(MazoSorpresas mazo, String nombre){
+    Casilla(MazoSorpresas mazo, String nombre){
         this.init();
         this.tipo = TipoCasilla.SORPRESA;
         this.mazo = mazo;
@@ -71,21 +71,46 @@ public class Casilla {
     }
     
     
-    protected TituloPropiedad getTituloPropiedad(){
+    TituloPropiedad getTituloPropiedad(){
         return this.titulo;
     }
    
     
     private void informe(int iactual, ArrayList<Jugador> todos){
         Jugador jugadorActual = todos.get(iactual);
-        Diario.getInstance().ocurreEvento("Casilla: el jugador " + jugadorActual.getNombre() + " se encuentra en la casilla " + jugadorActual.getNumCasillaActual() + " de tipo " + this.tipo);
+        String segun_tipo = informeTipo();
+        Diario.getInstance().ocurreEvento("Casilla: el jugador " + jugadorActual.getNombre() + " se encuentra en la casilla " + jugadorActual.getNumCasillaActual() + " de tipo " + segun_tipo);
+    }
+    
+    private String informeTipo(){
+        String respuesta="";
+        switch(this.tipo){
+            case CALLE:
+                respuesta = "CALLE";
+                if(titulo!=null){
+                    if(titulo.tienePropietario())
+                        respuesta += " con propietario " + titulo.getPropietario().getNombre();
+                }   
+                break;
+            case IMPUESTO:
+                respuesta = "IMPUESTO, con importe " + importe;
+                break;
+            case JUEZ:
+                respuesta = "JUEZ, por lo que debe ir a la carcel";
+                break;
+            case SORPRESA:
+                respuesta = "SORPRESA, asi que debe coger una carta";
+                break;
+        }
+        return respuesta;
     }
     
     
     public Boolean jugadorCorrecto(int iactual, ArrayList<Jugador> todos){return iactual >= 0 && iactual < todos.size();}
     
     
-    protected void recibeJugador(int iactual, ArrayList<Jugador> todos){
+    void recibeJugador(int iactual, ArrayList<Jugador> todos){
+        this.informe(iactual,todos);
         switch(this.tipo){
             case CALLE: this.recibeJugador_calle(iactual,todos); break;
             case IMPUESTO: this.recibeJugador_impuesto(iactual, todos); break;
@@ -94,7 +119,7 @@ public class Casilla {
             //default: this.informe(iactual, todos); break; Diagrama P3
             //Como va a ser otro? Tendra que informar siempre
         }
-        this.informe(iactual,todos);
+       
     }
     
     

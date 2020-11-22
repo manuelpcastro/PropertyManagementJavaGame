@@ -12,9 +12,9 @@ import java.util.Scanner;
 
 class VistaTextual {
   
-  CivitasJuego juegoModel; 
-  int iGestion=-1;
-  int iPropiedad=-1;
+  private CivitasJuego juegoModel; 
+  private int iGestion=-1;
+  private int iPropiedad=-1;
   private static String separador = "=====================";
   
   private Scanner in;
@@ -132,12 +132,13 @@ class VistaTextual {
         juegoModel=civitas;
     }
   
-  void actualizarVista(){
-      String info ="\n\033[31m --JUGADOR ACTUAL: \n";
-      info += "     " + this.juegoModel.getJugadorActual().toString();
-      info +="\n\033[31m ---CASILLA ACTUAL: \n";
-      info += "     " + this.juegoModel.getCasillaActual().toString() + "\n"; 
+  public void actualizarVista(){
+      String info = juegoModel.infoJugadorTexto();
       
       System.out.println(info);
   } 
+  
+  void ranking(){
+      menu("----Ranking----", juegoModel.infoRanking());
+  }
 }
