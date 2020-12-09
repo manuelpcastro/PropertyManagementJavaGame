@@ -107,6 +107,7 @@ class VistaTextual {
       lista.add(GestionesInmobiliarias.CANCELAR_HIPOTECA.toString());
       lista.add(GestionesInmobiliarias.CONSTRUIR_CASA.toString());
       lista.add(GestionesInmobiliarias.CONSTRUIR_HOTEL.toString());
+      lista.add(GestionesInmobiliarias.PROBAR.toString());
       lista.add(GestionesInmobiliarias.TERMINAR.toString());
       this.iGestion = this.menu("Elige la operacion que quieres realizar", lista);
         

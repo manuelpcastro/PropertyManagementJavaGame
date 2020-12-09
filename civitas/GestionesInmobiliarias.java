@@ -10,6 +10,7 @@ public enum GestionesInmobiliarias {
     CANCELAR_HIPOTECA,
     CONSTRUIR_CASA,
     CONSTRUIR_HOTEL,
+    PROBAR,
     TERMINAR
 }
 

@@ -81,6 +81,10 @@ public class Controlador {
                 break;
             case CONSTRUIR_HOTEL:
                 juego.construirHotel(ip);
+                break;    
+            case PROBAR:
+                juego.probar(3);
+                juego.siguientePasoCompletado(siguiente);
                 break;
             case TERMINAR:
                 juego.siguientePasoCompletado(siguiente);

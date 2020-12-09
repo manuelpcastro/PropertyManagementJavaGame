@@ -25,6 +25,8 @@ public class Jugador implements Comparable<Jugador>{
     private boolean puedeComprar;
     private float saldo;
     
+    private ClaseNueva examen;
+    
     
     Sorpresa salvoconducto;
     private ArrayList<TituloPropiedad> propiedades;
@@ -303,7 +305,7 @@ public class Jugador implements Comparable<Jugador>{
     }
      
     boolean salirCarcelTirando(){
-        encarcelado = Dado.getInstance().salgoDeLaCarcel();
+        encarcelado = !Dado.getInstance().salgoDeLaCarcel();
         if(!encarcelado)
             this.informarDiario("ha salido de la cárcel gracias al dado");
         else
