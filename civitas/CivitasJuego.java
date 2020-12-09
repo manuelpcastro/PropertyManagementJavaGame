@@ -122,8 +122,11 @@ public class CivitasJuego {
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, 30, "Cobras 30"));   
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, -20, "Pagas 20"));   
         
-        //IRCASILLA
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, tablero.getCarcel(), "Te diriges a la cárcel"));  
+        //IRCARCEL
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, tablero));
+        
+        //IRCASILLA        
+        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, 0, "Ve a la casilla inicial"));  
         
@@ -138,8 +141,6 @@ public class CivitasJuego {
         //SALIRCARCEL
         this.mazo.alMazo(new Sorpresa(TipoSorpresa.SALIRCARCEL, this.mazo));
         
-        //IRCARCEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, tablero));
     }
     
     //Los valores son totalmente arbitrarios, si queremos forzar el final del juego, bastaria con poner 7500 a todos los titulos en el pago de alquiler
