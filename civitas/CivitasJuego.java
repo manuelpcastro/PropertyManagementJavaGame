@@ -65,7 +65,7 @@ public class CivitasJuego {
     public boolean comprar(){ 
         Jugador jugadorActual = this.getJugadorActual();
        
-        Casilla casilla = getCasillaActual();
+        CasillaCalle casilla = (CasillaCalle) getCasillaActual();
         TituloPropiedad titulo = casilla.getTituloPropiedad();
     
         return jugadorActual.comprar(titulo);
@@ -119,27 +119,27 @@ public class CivitasJuego {
     private void inicializarMazoSopresas(Tablero tablero){
         
         //PAGARCOBRAR
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, 30, "Cobras 30"));   
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PAGARCOBRAR, -20, "Pagas 20"));   
+        this.mazo.alMazo(new SorpresaPago(30, "Cobras 30"));   
+        this.mazo.alMazo(new SorpresaPago(-20, "Pagas 20"));   
         
         //IRCARCEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCARCEL, tablero));
+        this.mazo.alMazo(new SorpresaCarcel(tablero));
         
         //IRCASILLA        
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.IRCASILLA, this.tablero, 0, "Ve a la casilla inicial"));  
+        this.mazo.alMazo(new SorpresaCasilla(this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
+        this.mazo.alMazo(new SorpresaCasilla(this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
+        this.mazo.alMazo(new SorpresaCasilla(this.tablero, 0, "Ve a la casilla inicial"));  
         
         //PORCASAHOTEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORCASAHOTEL, 10, "Recibes dinero por casa y hotel"));
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORCASAHOTEL, -15, "Pagas por casa y hotel"));
+        this.mazo.alMazo(new SorpresaPorCasaHotel(10, "Recibes dinero por casa y hotel"));
+        this.mazo.alMazo(new SorpresaPorCasaHotel(-15, "Pagas por casa y hotel"));
           
         //PORJUGADOR
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORJUGADOR, 100, "Recibes de cada jugador"));
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.PORJUGADOR, -100, "Pagas a cada jugador"));
+        this.mazo.alMazo(new SorpresaPorJugador(100, "Recibes de cada jugador"));
+        this.mazo.alMazo(new SorpresaPorJugador(-100, "Pagas a cada jugador"));
         
         //SALIRCARCEL
-        this.mazo.alMazo(new Sorpresa(TipoSorpresa.SALIRCARCEL, this.mazo));
+        this.mazo.alMazo(new SorpresaSalvoconducto(this.mazo));
         
     }
     
@@ -151,22 +151,22 @@ public class CivitasJuego {
        //12 casillas calle
        String[] nombres = {"Barcelona", "Jaen", "Granada", "Cordoba", "Sevilla", "Madrid", "Malaga", "Cadiz", "Huelva", "Almeria", "Valencia", "Bilbao"};
        for(int i=0; i<nombres.length; i++){
-        casillas.add(new Casilla(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
+        casillas.add(new CasillaCalle(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
        }
        
        //4 casillas sorpresa
        for(int j=0; j<CivitasJuego.NUM_CASILLAS_SORPRESA; j++){
-        casillas.add(new Casilla(mazo, "Casilla Sorpresa"));
+        casillas.add(new CasillaSorpresa(mazo, "Casilla Sorpresa"));
        }
        
        //1 casilla impuesto
-       casillas.add(new Casilla((float)30.0,"IMPUESTO"));
+       casillas.add(new CasillaImpuesto((float)30.0,"IMPUESTO"));
        
        //1 casilla parking
        casillas.add(new Casilla("PARKING"));
        
        //1 casilla juez
-       casillas.add(new Casilla("JUEZ",tablero.getCarcel()));
+       casillas.add(new CasillaJuez("JUEZ",tablero.getCarcel()));
        
        Collections.shuffle(casillas);
        
