@@ -60,7 +60,7 @@ public class Tablero {
         
         //Esto es redundante?????????!!!!!
         if(this.casillas.size() == this.numCasillaCarcel){
-            Casilla casillaCarcel = new Casilla(this.numCasillaCarcel,"Carcel");
+            Casilla casillaCarcel = new CasillaJuez("Carcel", this.numCasillaCarcel);
             this.casillas.add(casillaCarcel);
         }
         
@@ -68,8 +68,7 @@ public class Tablero {
         
         //Con esta seria suficiente
         if(this.casillas.size() == this.numCasillaCarcel){
-            Casilla casillaCarcel = new Casilla(this.numCasillaCarcel
-                    ,"Carcel");
+            Casilla casillaCarcel = new CasillaJuez("Carcel", this.numCasillaCarcel);
             this.casillas.add(casillaCarcel);
         }
     }
