@@ -39,7 +39,21 @@ public class Jugador implements Comparable<Jugador>{
     }
     
     protected Jugador(Jugador otro){
-        //??????????????'
+        this.nombre = otro.nombre;
+        this.numCasillaActual = otro.numCasillaActual;
+        this.puedeComprar = otro.puedeComprar;
+        this.saldo = otro.getSaldo();
+        this.encarcelado = otro.isEncarcelado();
+        this.propiedades = convertirPropiedades(otro);
+    }
+    
+    private ArrayList<TituloPropiedad> convertirPropiedades(Jugador otro){
+        ArrayList<TituloPropiedad> nuevasPropiedades = otro.getPropiedades();
+        for(TituloPropiedad titulo : nuevasPropiedades){
+            titulo.actualizaPropietarioPorConversion(this);
+        }
+        
+        return nuevasPropiedades;
     }
     
     boolean cancelarHipoteca(int ip){ 
@@ -130,11 +144,10 @@ public class Jugador implements Comparable<Jugador>{
         if (this.encarcelado) return false;
         
         if(!this.tieneSalvoconducto()) return true;
-        else {
-            this.perderSalvoconducto();
-            this.informarDiario("evita ir a la cárcel, usa Salvoconducto.");
-            return false;
-        }     
+ 
+        this.perderSalvoconducto();
+        this.informarDiario("evita ir a la cárcel, usa Salvoconducto.");
+        return false;     
     }
     
     boolean enBancarrota(){
@@ -153,7 +166,7 @@ public class Jugador implements Comparable<Jugador>{
         return this.propiedades.size() > ip && ip >= 0;
     }
     
-    private int getCasasMax(){
+    protected int getCasasMax(){
         return Jugador.CASAS_MAX;
     }
     
@@ -161,7 +174,7 @@ public class Jugador implements Comparable<Jugador>{
         return Jugador.CASAS_POR_HOTEL;
     }
     
-    private int getHotelesMax(){
+    protected int getHotelesMax(){
         return Jugador.HOTELES_MAX;
     }
     
@@ -282,7 +295,7 @@ public class Jugador implements Comparable<Jugador>{
         return puedoEdificarHotel;
     }
     
-    private boolean puedoGastar(float precio){
+    protected boolean puedoGastar(float precio){
         if(this.encarcelado) return false;    
         return this.saldo >= precio;
     }
