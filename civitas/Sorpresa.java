@@ -41,10 +41,11 @@ public class Sorpresa {
     
     protected void informe(int actual, ArrayList<Jugador> todos){
         Jugador jugadorActual = todos.get(actual);
-        String mensajeValor="";
-     
-            mensajeValor = " El valor de la carta es: ";
-        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa a " + jugadorActual.getNombre() +"." + mensajeValor);
+        String mensajeValor = "";
+        if(valor != -1){
+            mensajeValor=". El valor de la carta es: " + valor;
+        }
+        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa a " + jugadorActual.getNombre() +"." + texto + mensajeValor);
     }
     
     

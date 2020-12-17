@@ -37,5 +37,8 @@ public class Casilla {
     
     void recibeJugador(int iactual, ArrayList<Jugador> todos){}
 
-       
+    @Override
+    public String toString(){
+        return "";
+    }  
 }

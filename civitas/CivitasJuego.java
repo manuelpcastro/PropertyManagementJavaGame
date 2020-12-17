@@ -117,6 +117,8 @@ public class CivitasJuego {
     }
     
     private void inicializarMazoSopresas(Tablero tablero){
+        //CONVERTIRESPECULADOR
+        this.mazo.alMazo(new SorpresaEspeculador(250));
         
         //PAGARCOBRAR
         this.mazo.alMazo(new SorpresaPago(30, "Cobras 30"));   
