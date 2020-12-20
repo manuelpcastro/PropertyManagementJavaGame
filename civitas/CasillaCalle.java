@@ -43,4 +43,11 @@ public class CasillaCalle extends Casilla {
         }  
         this.avisarDiario(evento + respuesta);
     }
+
+    @Override
+    public String toString() {
+        return "CasillaCalle{" + "titulo=" + titulo + '}';
+    }
+    
+    
 }

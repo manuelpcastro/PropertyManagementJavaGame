@@ -9,8 +9,8 @@ import java.util.Collections;
  */
 public class CivitasJuego {
     
+    private static int CARCEL = 4;
     //MODO DEBUG DADO ACTIVADO EN LINEA 34
-    private static int NUM_CASILLAS_SORPRESA=3;
     private static Boolean debug=true;
     private int indiceJugadorActual;
     ArrayList<Jugador> jugadores;
@@ -35,7 +35,7 @@ public class CivitasJuego {
         Dado.getInstance().setDebug(CivitasJuego.debug);
         
         this.mazo = new MazoSorpresas();
-        this.tablero = new Tablero(4);
+        this.tablero = new Tablero(CARCEL);
         //Dejar claro como se elige el num_casilla de la carcel
         this.inicializarTablero(this.mazo);
         
@@ -117,66 +117,12 @@ public class CivitasJuego {
     }
     
     private void inicializarMazoSopresas(Tablero tablero){
-        //CONVERTIRESPECULADOR
-        this.mazo.alMazo(new SorpresaEspeculador(250));
-        
-        //PAGARCOBRAR
-        this.mazo.alMazo(new SorpresaPago(30, "Cobras 30"));   
-        this.mazo.alMazo(new SorpresaPago(-20, "Pagas 20"));   
-        
-        //IRCARCEL
-        this.mazo.alMazo(new SorpresaCarcel(tablero));
-        
-        //IRCASILLA        
-        this.mazo.alMazo(new SorpresaCasilla(this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
-        this.mazo.alMazo(new SorpresaCasilla(this.tablero, this.tablero.numCasillas()-1, "Ve a la ultima casilla"));  
-        this.mazo.alMazo(new SorpresaCasilla(this.tablero, 0, "Ve a la casilla inicial"));  
-        
-        //PORCASAHOTEL
-        this.mazo.alMazo(new SorpresaPorCasaHotel(10, "Recibes dinero por casa y hotel"));
-        this.mazo.alMazo(new SorpresaPorCasaHotel(-15, "Pagas por casa y hotel"));
-          
-        //PORJUGADOR
-        this.mazo.alMazo(new SorpresaPorJugador(100, "Recibes de cada jugador"));
-        this.mazo.alMazo(new SorpresaPorJugador(-100, "Pagas a cada jugador"));
-        
-        //SALIRCARCEL
-        this.mazo.alMazo(new SorpresaSalvoconducto(this.mazo));
-        
+        this.mazo.inicializar(tablero);
     }
     
     //Los valores son totalmente arbitrarios, si queremos forzar el final del juego, bastaria con poner 7500 a todos los titulos en el pago de alquiler
     private void inicializarTablero(MazoSorpresas mazo){
-        
-       ArrayList<Casilla> casillas = new ArrayList<>();
-       
-       //12 casillas calle
-       String[] nombres = {"Barcelona", "Jaen", "Granada", "Cordoba", "Sevilla", "Madrid", "Malaga", "Cadiz", "Huelva", "Almeria", "Valencia", "Bilbao"};
-       for(int i=0; i<nombres.length; i++){
-        casillas.add(new CasillaCalle(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
-       }
-       
-       //4 casillas sorpresa
-       for(int j=0; j<CivitasJuego.NUM_CASILLAS_SORPRESA; j++){
-        casillas.add(new CasillaSorpresa(mazo, "Casilla Sorpresa"));
-       }
-       
-       //1 casilla impuesto
-       casillas.add(new CasillaImpuesto((float)30.0,"IMPUESTO"));
-       
-       //1 casilla parking
-       casillas.add(new Casilla("PARKING"));
-       
-       //1 casilla juez
-       casillas.add(new CasillaJuez("JUEZ",tablero.getCarcel()));
-       
-       Collections.shuffle(casillas);
-       
-       casillas.add(0, new Casilla("SALIDA"));
-       
-       for(Casilla c : casillas){
-           this.tablero.añadeCasilla(c);
-       }
+        this.tablero.inicializar(mazo);
     }
     
     private void pasarTurno(){

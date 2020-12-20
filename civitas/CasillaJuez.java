@@ -30,4 +30,11 @@ public class CasillaJuez extends Casilla {
         
         this.avisarDiario(evento + respuesta);
     }
+
+    @Override
+    public String toString() {
+        return "CasillaJuez{nombre= " + this.getNombre() + '}';
+    }
+    
+    
 }

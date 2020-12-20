@@ -76,5 +76,33 @@ public class MazoSorpresas {
          this.cartasEspeciales.remove(sorpresa); 
          this.sorpresas.add(sorpresa);
     }
+
+    void inicializar(Tablero tablero) {
+        //CONVERTIRESPECULADOR
+        this.alMazo(new SorpresaEspeculador(250));
+        
+        //PAGARCOBRAR
+        this.alMazo(new SorpresaPago(30, "Cobras 30"));   
+        this.alMazo(new SorpresaPago(-20, "Pagas 20"));   
+        
+        //IRCARCEL
+        this.alMazo(new SorpresaCarcel(tablero));
+        
+        //IRCASILLA        
+        this.alMazo(new SorpresaCasilla(tablero, tablero.numCasillas()-1, "Ve a la ultima casilla"));  
+        this.alMazo(new SorpresaCasilla(tablero, tablero.numCasillas()-1, "Ve a la ultima casilla"));  
+        this.alMazo(new SorpresaCasilla(tablero, 0, "Ve a la casilla inicial"));  
+        
+        //PORCASAHOTEL
+        this.alMazo(new SorpresaPorCasaHotel(10, "Recibes dinero por casa y hotel"));
+        this.alMazo(new SorpresaPorCasaHotel(-15, "Pagas por casa y hotel"));
+          
+        //PORJUGADOR
+        this.alMazo(new SorpresaPorJugador(100, "Recibes de cada jugador"));
+        this.alMazo(new SorpresaPorJugador(-100, "Pagas a cada jugador"));
+        
+        //SALIRCARCEL
+        this.alMazo(new SorpresaSalvoconducto(this));
+    }
     
 }

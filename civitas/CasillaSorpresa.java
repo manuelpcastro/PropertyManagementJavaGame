@@ -28,4 +28,11 @@ public class CasillaSorpresa extends Casilla {
         
         this.avisarDiario(evento + respuesta);
     }
+
+    @Override
+    public String toString() {
+        return "CasillaSorpresa{nombre= " + this.getNombre() + '}';
+    }
+    
+    
 }

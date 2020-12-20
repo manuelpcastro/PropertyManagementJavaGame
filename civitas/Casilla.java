@@ -39,6 +39,6 @@ public class Casilla {
 
     @Override
     public String toString(){
-        return "";
+        return "Casilla{nombre= " + nombre + "}";
     }  
 }

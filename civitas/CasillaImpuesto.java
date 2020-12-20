@@ -29,4 +29,10 @@ public class CasillaImpuesto extends Casilla {
         
         this.avisarDiario(evento + respuesta);
     }
+
+    @Override
+    public String toString() {
+        return "CasillaImpuesto{nombre= " + this.getNombre() + ", importe=" + importe + '}';
+    }
+    
 }

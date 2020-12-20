@@ -1,12 +1,15 @@
 package civitas;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
  * @author manuel
  */
 public class Tablero {
+    
+    private int NUM_CASILLAS_SORPRESA = 4;
     
     private int numCasillaCarcel;
     private ArrayList<Casilla> casillas;
@@ -117,6 +120,34 @@ public class Tablero {
     
     int numCasillas(){
         return this.casillas.size();
+    }
+
+    void inicializar(MazoSorpresas mazo) {
+     
+       //12 casillas calle
+       String[] nombres = {"Barcelona", "Jaen", "Granada", "Cordoba", "Sevilla", "Madrid", "Malaga", "Cadiz", "Huelva", "Almeria", "Valencia", "Bilbao"};
+       for(int i=0; i<nombres.length; i++){
+        this.añadeCasilla(new CasillaCalle(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
+       }
+       
+       //4 casillas sorpresa
+       for(int j=0; j<NUM_CASILLAS_SORPRESA; j++){
+        this.añadeCasilla(new CasillaSorpresa(mazo, "Casilla Sorpresa"));
+       }
+       
+       //1 casilla impuesto
+       this.añadeCasilla(new CasillaImpuesto((float)30.0,"IMPUESTO"));
+       
+       //1 casilla parking
+       this.añadeCasilla(new Casilla("PARKING"));
+       
+       //1 casilla juez
+       this.añadeCasilla(new CasillaJuez("JUEZ",this.getCarcel()));
+       
+       Collections.shuffle(this.casillas);
+       
+       this.casillas.add(0, new Casilla("SALIDA"));
+           
     }
     
     
