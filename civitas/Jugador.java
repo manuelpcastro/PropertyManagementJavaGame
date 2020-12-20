@@ -36,6 +36,7 @@ public class Jugador implements Comparable<Jugador>{
         this.saldo = Jugador.SALDO_INICIAL;
         this.encarcelado = false;
         this.propiedades = new ArrayList<>();
+        this.salvoconducto = null;
     }
     
     protected Jugador(Jugador otro){
@@ -44,17 +45,11 @@ public class Jugador implements Comparable<Jugador>{
         this.puedeComprar = otro.puedeComprar;
         this.saldo = otro.getSaldo();
         this.encarcelado = otro.isEncarcelado();
-        this.propiedades = convertirPropiedades(otro);
+        this.propiedades = otro.propiedades;
+        this.salvoconducto = otro.salvoconducto;
     }
     
-    private ArrayList<TituloPropiedad> convertirPropiedades(Jugador otro){
-        ArrayList<TituloPropiedad> nuevasPropiedades = otro.getPropiedades();
-        for(TituloPropiedad titulo : nuevasPropiedades){
-            titulo.actualizaPropietarioPorConversion(this);
-        }
-        
-        return nuevasPropiedades;
-    }
+  
     
     boolean cancelarHipoteca(int ip){ 
         boolean result = false;

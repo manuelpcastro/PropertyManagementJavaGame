@@ -1,5 +1,7 @@
 package civitas;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author manuel
@@ -8,11 +10,18 @@ public class JugadorEspeculador extends Jugador{
     
     private static int FACTOR_ESPECULADOR=2;
     private static float IMPUESTOS=0.5f;
-    private  int fianza;
+    private int fianza;
     
     JugadorEspeculador(Jugador jugador, int fianza){
         super(jugador);
         this.fianza = fianza;
+        convertirPropiedades();
+    }
+    
+    private void convertirPropiedades(){
+        for(TituloPropiedad titulo : getPropiedades()){
+            titulo.actualizaPropietarioPorConversion(this);
+        }
     }
     
     @Override
