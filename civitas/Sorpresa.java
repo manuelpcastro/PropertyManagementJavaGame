@@ -31,6 +31,10 @@ public class Sorpresa {
       return this.valor;
     }
     
+    protected void setValor(int v){
+        this.valor = v;
+    }
+    
     String getTexto(){
         return this.texto;
     }
@@ -41,11 +45,8 @@ public class Sorpresa {
     
     protected void informe(int actual, ArrayList<Jugador> todos){
         Jugador jugadorActual = todos.get(actual);
-        String mensajeValor = "";
-        if(valor != -1){
-            mensajeValor=". El valor de la carta es: " + valor;
-        }
-        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa a " + jugadorActual.getNombre() +"." + texto + mensajeValor);
+       
+        Diario.getInstance().ocurreEvento("Sorpresas: se aplica una sorpresa a " + jugadorActual.getNombre() +"." + this.toString());
     }
     
     
@@ -56,7 +57,11 @@ public class Sorpresa {
     
     @Override
     public String toString() {
-        return this.texto;
+        String mensajeValor = "";
+        if(valor != -1){
+            mensajeValor=". El valor de la carta es: " + valor;
+        }
+        return this.texto + mensajeValor;
     }  
     
 }

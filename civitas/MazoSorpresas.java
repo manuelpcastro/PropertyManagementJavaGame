@@ -78,6 +78,9 @@ public class MazoSorpresas {
     }
 
     void inicializar(Tablero tablero) {
+        
+        //CONVERTIRESPECULADOR
+        this.alMazo(new SorpresaExamen(7, tablero));
         //CONVERTIRESPECULADOR
         this.alMazo(new SorpresaEspeculador(250));
         

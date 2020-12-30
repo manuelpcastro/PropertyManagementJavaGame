@@ -147,6 +147,7 @@ public class Tablero {
        Collections.shuffle(this.casillas);
        
        this.casillas.add(0, new Casilla("SALIDA"));
+       this.casillas.add(1, new CasillaSorpresa(mazo, "Sorpresa - eXamen"));
            
     }
     
