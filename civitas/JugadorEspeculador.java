@@ -17,11 +17,16 @@ public class JugadorEspeculador extends Jugador{
         this.fianza = fianza;
         convertirPropiedades();
     }
-    
+
     private void convertirPropiedades(){
         for(TituloPropiedad titulo : getPropiedades()){
             titulo.actualizaPropietarioPorConversion(this);
         }
+    }
+      
+    @Override
+    public String getNombre(){
+        return "Especulador " + super.getNombre();
     }
     
     @Override
@@ -58,6 +63,6 @@ public class JugadorEspeculador extends Jugador{
     
     @Override
     public String toString(){
-        return "¡JugadorEspeculador!{" + "nombre=" + this.getNombre() + ", fianza=" + fianza + ", encarcelado=" + encarcelado + ", numCasillaActual=" + this.getNumCasillaActual() + ", saldo=" + this.getSaldo() + ", propiedades=" + this.getPropiedades() + '}';
+        return "Jugador{" + "nombre=" + this.getNombre() + ", fianza=" + fianza + ", encarcelado=" + encarcelado + ", numCasillaActual=" + this.getNumCasillaActual() + ", saldo=" + this.getSaldo() + ", propiedades=" + this.getPropiedades() + '}';
     }
 }

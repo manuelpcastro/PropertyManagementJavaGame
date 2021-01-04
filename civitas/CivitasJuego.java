@@ -1,5 +1,6 @@
 package civitas;
 
+import Vista.GUI.Dado;
 import java.util.ArrayList;
 import java.util.Collections;
 

@@ -1,6 +1,6 @@
-package civitas;
+package Controlador;
 
-import civitas.GestionesInmobiliarias;
+import Controlador.GestionesInmobiliarias;
 
 /**
  *

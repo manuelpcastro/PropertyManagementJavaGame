@@ -1,5 +1,6 @@
-package JuegoTexto;
+package Vista.JuegoTexto;
 
+import Controlador.Controlador;
 import civitas.CivitasJuego;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author manuel
  */
-public class Prueba {
+public class PruebaTextual {
     
     
     

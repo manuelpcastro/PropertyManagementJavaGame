@@ -9,12 +9,20 @@ import java.util.ArrayList;
 public class Casilla {
     
     private String nombre;   
-       
+    private int numero;
     
     Casilla(String nombre){
         this.nombre = nombre;
     }
     
+    //Simplemente información adicional para el panel
+    void setNumero(int numero){
+        this.numero = numero;
+    }
+    
+    public int getNumero(){
+        return numero;
+    }
 
     public String getNombre(){
         return this.nombre;
