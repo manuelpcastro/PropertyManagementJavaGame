@@ -1,10 +1,10 @@
-package JuegoTexto;
+package Controlador;
 
-import civitas.OperacionInmobiliaria;
-import JuegoTexto.VistaTextual;
-import civitas.Respuestas;
+import Vista.Respuestas;
+import Vista.SalidasCarcel;
+import Vista.VistaCivitas;
+
 import civitas.CivitasJuego;
-import civitas.GestionesInmobiliarias;
 import civitas.OperacionesJuego;
 
 /**
@@ -13,19 +13,18 @@ import civitas.OperacionesJuego;
  */
 public class Controlador {
     CivitasJuego juego;
-    VistaTextual vista;
+    VistaCivitas vista;
     
-    Controlador(CivitasJuego instancia, VistaTextual vistaTextual){
+    public Controlador(CivitasJuego instancia, VistaCivitas view){
         juego = instancia;
-        vista = vistaTextual;
+        vista = view;
     }
     
-    void juega(){
+    public void juega(){
         vista.setCivitasJuego(juego);
         
         while(!juego.finalDelJuego()){
             vista.actualizarVista();
-            vista.pausa();
             
             OperacionesJuego siguiente = juego.siguientePaso();
             vista.mostrarSiguienteOperacion(siguiente);
@@ -40,7 +39,7 @@ public class Controlador {
                             juego.comprar();           
                         juego.siguientePasoCompletado(siguiente);     
                         break;
-                        
+         
                     case GESTIONAR:
                         vista.gestionar();                       
                         OperacionInmobiliaria op = new OperacionInmobiliaria(GestionesInmobiliarias.values()[vista.getGestion()], vista.getPropiedad());
@@ -48,7 +47,8 @@ public class Controlador {
                         break;
                         
                     case SALIR_CARCEL:
-                        switch(vista.salirCarcel()){
+                        SalidasCarcel salida = vista.salirCarcel();
+                        switch(salida){
                             case PAGANDO:
                                 juego.salirCarcelPagando();
                                 break;
@@ -63,6 +63,8 @@ public class Controlador {
         }
         vista.ranking();
     }
+    
+    
     //Por legibilidad de codigo en el metodo juega, saco esta parte fuera
     private void casosGestionar(OperacionInmobiliaria op, OperacionesJuego siguiente){
         int ip = op.getNumPropiedad();  

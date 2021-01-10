@@ -117,17 +117,17 @@ public class TituloPropiedad {
     }
     
     
-    String getNombre(){
+    public String getNombre(){
         return this.nombre;
     }
     
     
-    int getNumCasas(){
+    public int getNumCasas(){
         return this.numCasas;
     }
     
     
-    int getNumHoteles(){
+    public int getNumHoteles(){
         return this.numHoteles;
     }
     

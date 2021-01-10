@@ -1,5 +1,6 @@
 package civitas;
 
+import Vista.GUI.Dado;
 import java.util.ArrayList;
 
 /**
@@ -173,7 +174,7 @@ public class Jugador implements Comparable<Jugador>{
         return Jugador.HOTELES_MAX;
     }
     
-    protected String getNombre(){
+    public String getNombre(){
         return this.nombre;
     }
     
@@ -189,7 +190,7 @@ public class Jugador implements Comparable<Jugador>{
         return Jugador.PASO_POR_SALIDA;
     }
    
-    protected ArrayList<TituloPropiedad> getPropiedades(){
+    public ArrayList<TituloPropiedad> getPropiedades(){
         return this.propiedades;
     }
     
@@ -197,7 +198,7 @@ public class Jugador implements Comparable<Jugador>{
         return this.puedeComprar;
     }
     
-    protected float getSaldo(){
+    public float getSaldo(){
         return this.saldo;
     }
     
@@ -350,7 +351,7 @@ public class Jugador implements Comparable<Jugador>{
         Diario.getInstance().ocurreEvento("Jugador " + this.nombre + ": " + mensaje);
     }
 
-    String infoPropiedades(){
+    public String infoPropiedades(){
         String titulos = "\n    Propiedades: \n";
         for(TituloPropiedad p : this.propiedades){
            titulos+="   "

@@ -1,16 +1,17 @@
-package JuegoTexto;
+package Vista.JuegoTexto;
 
-import civitas.GestionesInmobiliarias;
-import civitas.Respuestas;
+import Controlador.GestionesInmobiliarias;
+import Vista.Respuestas;
+import Vista.VistaCivitas;
 import civitas.CivitasJuego;
 import civitas.Diario;
 import civitas.OperacionesJuego;
-import civitas.SalidasCarcel;
+import Vista.SalidasCarcel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-class VistaTextual {
+public class VistaTextual implements VistaCivitas{
   
   private CivitasJuego juegoModel; 
   private int iGestion=-1;
@@ -19,11 +20,11 @@ class VistaTextual {
   
   private Scanner in;
   
-  VistaTextual () {
+  public VistaTextual () {
     in = new Scanner (System.in);
   }
   
-  void mostrarEstado(String estado) {
+  public void mostrarEstado(String estado) {
     System.out.println (estado);
   }
               
@@ -55,7 +56,7 @@ class VistaTextual {
     return numero;
   }
 
-  int menu (String titulo, ArrayList<String> lista) {
+  public int menu (String titulo, ArrayList<String> lista) {
     String tab = "  ";
     int opcion;
     System.out.println (titulo);
@@ -69,13 +70,15 @@ class VistaTextual {
     return opcion;
   }
 
-  SalidasCarcel salirCarcel() {
+  @Override
+  public SalidasCarcel salirCarcel() {
     int opcion = menu ("Elige la forma para intentar salir de la carcel",
       new ArrayList<> (Arrays.asList("Pagando","Tirando el dado")));
     return (SalidasCarcel.values()[opcion]);
   }
 
-  Respuestas comprar() {
+  @Override
+  public Respuestas comprar() {
       System.out.println(this.juegoModel.getCasillaActual().toString());
       System.out.println("¿Quieres comprar la calle? S/N");
       String respuesta="";
@@ -96,7 +99,8 @@ class VistaTextual {
       return result;
   }
 
-  void gestionar () {
+  @Override
+  public void gestionar () {
       System.out.println(juegoModel.infoPropiedades());
       
       this.iPropiedad = this.menu("Elige la propiedad que quieres gestionar", juegoModel.getPropiedadesJugadorActual());
@@ -117,28 +121,33 @@ class VistaTextual {
   public int getPropiedad(){ return this.iPropiedad; }
     
 
-  void mostrarSiguienteOperacion(OperacionesJuego operacion) {
+  @Override
+  public void mostrarSiguienteOperacion(OperacionesJuego operacion) {
       System.out.println("La siguiente operacion es " + operacion.toString());
   }
 
 
-  void mostrarEventos() {
+  @Override
+  public void mostrarEventos() {
       Diario diario = Diario.getInstance();
       while(diario.eventosPendientes())
         System.out.println("\033[35m DIARIO:" + diario.leerEvento());
   }
   
+  @Override
   public void setCivitasJuego(CivitasJuego civitas){ 
         juegoModel=civitas;
     }
   
+  @Override
   public void actualizarVista(){
       String info = juegoModel.infoJugadorTexto();
       
       System.out.println(info);
   } 
   
-  void ranking(){
+  @Override
+  public void ranking(){
       menu("----Ranking----", juegoModel.infoRanking());
   }
 }
