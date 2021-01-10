@@ -24,6 +24,11 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
      */
     public VistaGrafica() {
         initComponents();
+        
+        this.rankingArea.setVisible(false);
+        this.rankingLabel.setVisible(false);
+        this.jScrollPane1.setVisible(false);
+        
         this.jugadorPanel = new JugadorPanel();
         this.contenedorVistaJugador.add(jugadorPanel);
         
@@ -100,6 +105,20 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
     @Override
     public void ranking() {
         
+        String infoRanking = "";
+        for(String s : juego.infoRanking()){
+            infoRanking += "\n\n" + s;
+        }
+        
+        this.rankingArea.setText(infoRanking);
+        
+        this.rankingLabel.setVisible(true);
+        this.jScrollPane1.setVisible(true);
+        this.rankingArea.setVisible(true);
+        
+       
+        this.rankingArea.repaint();
+        this.rankingArea.revalidate();
     }
     
     
@@ -117,6 +136,9 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
         contenedorCasilla = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         operacion = new javax.swing.JLabel();
+        rankingLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        rankingArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,6 +148,12 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
         jLabel1.setEnabled(false);
 
         operacion.setText("operacion");
+
+        rankingLabel.setText("RANKING");
+
+        rankingArea.setColumns(20);
+        rankingArea.setRows(5);
+        jScrollPane1.setViewportView(rankingArea);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,18 +167,24 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(119, 119, 119)
                         .addComponent(contenedorVistaJugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(269, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(contenedorCasilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
                         .addComponent(operacion)
-                        .addGap(83, 83, 83))))
+                        .addGap(83, 83, 83))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(contenedorCasilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(206, 206, 206)
+                .addComponent(rankingLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +199,11 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
                 .addComponent(contenedorVistaJugador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 353, Short.MAX_VALUE)
                 .addComponent(contenedorCasilla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(341, 341, 341))
+                .addGap(105, 105, 105)
+                .addComponent(rankingLabel)
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         pack();
@@ -212,7 +250,10 @@ public class VistaGrafica extends javax.swing.JFrame implements VistaCivitas {
     private javax.swing.JPanel contenedorCasilla;
     private javax.swing.JPanel contenedorVistaJugador;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel operacion;
+    private javax.swing.JTextArea rankingArea;
+    private javax.swing.JLabel rankingLabel;
     // End of variables declaration//GEN-END:variables
 
     

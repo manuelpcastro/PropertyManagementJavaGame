@@ -145,7 +145,7 @@ public class Tablero {
         //12 casillas calle
        String[] nombres = {"Barcelona", "Jaen", "Granada", "Cordoba", "Sevilla", "Madrid", "Malaga", "Cadiz", "Huelva", "Almeria", "Valencia", "Bilbao"};
        for(int i=0; i<nombres.length; i++){
-        this.añadeCasilla(new CasillaCalle(new TituloPropiedad("Calle " + nombres[i],30,30,30,30,30)));
+        this.añadeCasilla(new CasillaCalle(new TituloPropiedad("Calle " + nombres[i],7600,30,30,30,30)));
        }
        
        //4 casillas sorpresa
@@ -163,6 +163,8 @@ public class Tablero {
        this.añadeCasilla(new CasillaJuez("JUEZ",this.getCarcel()));
        
        Collections.shuffle(this.casillas);
+       
+       this.casillas.add(0,new CasillaSorpresa(mazo, "Casilla Sorpresa"));
     }
     
     

@@ -1,6 +1,7 @@
 package Controlador;
 
 import Vista.Respuestas;
+import Vista.SalidasCarcel;
 import Vista.VistaCivitas;
 
 import civitas.CivitasJuego;
@@ -46,7 +47,8 @@ public class Controlador {
                         break;
                         
                     case SALIR_CARCEL:
-                        switch(vista.salirCarcel()){
+                        SalidasCarcel salida = vista.salirCarcel();
+                        switch(salida){
                             case PAGANDO:
                                 juego.salirCarcelPagando();
                                 break;

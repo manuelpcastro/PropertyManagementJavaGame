@@ -1,6 +1,7 @@
-package Vista.JuegoTexto;
+package Pruebas;
 
 import Controlador.Controlador;
+import Vista.JuegoTexto.VistaTextual;
 import civitas.CivitasJuego;
 import java.util.ArrayList;
 

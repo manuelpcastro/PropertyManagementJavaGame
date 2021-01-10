@@ -1,6 +1,9 @@
-package Vista.GUI;
+package Pruebas;
 
 import Controlador.Controlador;
+import Vista.GUI.CapturaNombres;
+import Vista.GUI.Dado;
+import Vista.GUI.VistaGrafica;
 import civitas.CivitasJuego;
 import java.util.ArrayList;
 

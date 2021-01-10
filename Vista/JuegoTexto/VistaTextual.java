@@ -20,7 +20,7 @@ public class VistaTextual implements VistaCivitas{
   
   private Scanner in;
   
-  VistaTextual () {
+  public VistaTextual () {
     in = new Scanner (System.in);
   }
   

@@ -12,7 +12,7 @@ public class CivitasJuego {
     
     private static int CARCEL = 4;
     //MODO DEBUG DADO ACTIVADO EN LINEA 34
-    private static Boolean debug=true;
+    private static Boolean debug=false;
     private int indiceJugadorActual;
     ArrayList<Jugador> jugadores;
     
@@ -33,7 +33,7 @@ public class CivitasJuego {
         
         this.indiceJugadorActual = Dado.getInstance().quienEmpieza(this.jugadores.size());
         
-        Dado.getInstance().setDebug(CivitasJuego.debug);
+        //Dado.getInstance().setDebug(CivitasJuego.debug);
         
         this.mazo = new MazoSorpresas();
         this.tablero = new Tablero(CARCEL);
